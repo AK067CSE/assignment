@@ -1,102 +1,104 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from 'react';
+import { ContestModule } from '@/components/ContestModule';
+import { ReferralModule } from '@/components/ReferralModule';
+import { Navigation } from '@/components/Navigation';
+import { Globe, Trophy, Gift } from 'lucide-react';
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [activeModule, setActiveModule] = useState<'contest' | 'referral'>('contest');
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50">
+      {/* Header */}
+      <header className="bg-white/80 backdrop-blur-md shadow-sm border-b border-slate-200/60">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center space-x-3">
+              <div className="p-2 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl">
+                <Globe className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                  LanguageKonnect
+                </h1>
+                <p className="text-xs text-slate-500">Global Language Network</p>
+              </div>
+            </div>
+            
+            <Navigation activeModule={activeModule} setActiveModule={setActiveModule} />
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Module Header */}
+        <div className="mb-8 text-center">
+          <div className="flex items-center justify-center space-x-3 mb-4">
+            {activeModule === 'contest' ? (
+              <>
+                <div className="p-2 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg">
+                  <Trophy className="h-6 w-6 text-white" />
+                </div>
+                <h2 className="text-3xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                  Contest & Leaderboard
+                </h2>
+              </>
+            ) : (
+              <>
+                <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg">
+                  <Gift className="h-6 w-6 text-white" />
+                </div>
+                <h2 className="text-3xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                  Referral & Raffle
+                </h2>
+              </>
+            )}
+          </div>
+          <p className="text-slate-600 max-w-2xl mx-auto text-lg">
+            {activeModule === 'contest' 
+              ? 'Upload your 60-second language videos and compete on the global leaderboard!'
+              : 'Refer friends to earn raffle tickets and climb the referral leaderboard!'
+            }
+          </p>
+        </div>
+
+        {/* Module Content */}
+        <div className="fade-in">
+          {activeModule === 'contest' ? (
+            <ContestModule />
+          ) : (
+            <ReferralModule />
+          )}
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      {/* Footer */}
+      <footer className="bg-slate-50/50 border-t border-slate-200/60 mt-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="text-center">
+            <p className="text-slate-600 mb-4 text-lg">
+              Connect, compete, and earn using your real-world speaking skills
+            </p>
+            <div className="flex justify-center space-x-6 text-sm text-slate-500">
+              <a href="/terms" className="hover:text-indigo-600 transition-colors font-medium">
+                Terms of Service
+              </a>
+              <a href="/privacy" className="hover:text-indigo-600 transition-colors font-medium">
+                Privacy Policy
+              </a>
+              <a href={`mailto:${process.env.NEXT_PUBLIC_SUPPORT_EMAIL || 'support@languagekonnect.com'}`} 
+                 className="hover:text-indigo-600 transition-colors font-medium">
+                Support
+              </a>
+            </div>
+            <p className="text-xs text-slate-400 mt-4">
+              © 2024 LanguageKonnect. All rights reserved.
+            </p>
+          </div>
+        </div>
       </footer>
     </div>
   );
