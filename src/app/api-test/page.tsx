@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { checkApiHealth, contestApi } from '@/lib/api';
 
 export default function ApiTestPage() {
-  const [healthResult, setHealthResult] = useState<any>(null);
-  const [leaderboardResult, setLeaderboardResult] = useState<any>(null);
+  const [healthResult, setHealthResult] = useState<unknown>(null);
+  const [leaderboardResult, setLeaderboardResult] = useState<unknown>(null);
   const [loading, setLoading] = useState(false);
 
   const testHealth = async () => {
