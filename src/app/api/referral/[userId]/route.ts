@@ -1,104 +1,61 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// Mock data for referral leaderboard
-const mockReferralLeaderboard = [
-  {
-    id: '1',
-    userId: 'ref_user1',
-    userName: 'Alex Thompson',
-    referralCount: 47,
-    totalEarnings: 235.50,
-    rank: 1,
-    joinedAt: new Date('2023-12-01').toISOString(),
-    isActive: true,
-  },
-  {
-    id: '2',
-    userId: 'ref_user2',
-    userName: 'Sarah Kim',
-    referralCount: 38,
-    totalEarnings: 190.00,
-    rank: 2,
-    joinedAt: new Date('2023-11-15').toISOString(),
-    isActive: true,
-  },
-  {
-    id: '3',
-    userId: 'ref_user3',
-    userName: 'Miguel Rodriguez',
-    referralCount: 31,
-    totalEarnings: 155.00,
-    rank: 3,
-    joinedAt: new Date('2023-11-20').toISOString(),
-    isActive: true,
-  },
-  {
-    id: '4',
-    userId: 'ref_user4',
-    userName: 'Emma Wilson',
-    referralCount: 24,
-    totalEarnings: 120.00,
-    rank: 4,
-    joinedAt: new Date('2023-12-05').toISOString(),
-    isActive: true,
-  },
-  {
-    id: '5',
-    userId: 'ref_user5',
-    userName: 'David Chen',
-    referralCount: 19,
-    totalEarnings: 95.00,
-    rank: 5,
-    joinedAt: new Date('2023-12-10').toISOString(),
-    isActive: true,
-  },
-  {
-    id: '6',
-    userId: 'ref_user6',
-    userName: 'Lisa Anderson',
-    referralCount: 15,
-    totalEarnings: 75.00,
-    rank: 6,
-    joinedAt: new Date('2023-12-12').toISOString(),
-    isActive: true,
-  },
-  {
-    id: '7',
-    userId: 'ref_user7',
-    userName: 'James Miller',
-    referralCount: 12,
-    totalEarnings: 60.00,
-    rank: 7,
-    joinedAt: new Date('2023-12-15').toISOString(),
-    isActive: true,
-  },
-  {
-    id: '8',
-    userId: 'ref_user8',
-    userName: 'Anna Kowalski',
-    referralCount: 8,
-    totalEarnings: 40.00,
-    rank: 8,
-    joinedAt: new Date('2023-12-18').toISOString(),
-    isActive: true,
-  },
-];
+// Mock user referral data
+const mockUserReferralData = {
+  userId: 'current_user',
+  referralId: 'REF_ABC123XYZ',
+  referralCount: 12,
+  totalEarnings: 60.00,
+  pendingEarnings: 15.00,
+  raffleTickets: 24,
+  joinedAt: new Date('2023-12-01').toISOString(),
+  lastReferralAt: new Date('2024-01-10').toISOString(),
+  isActive: true,
+  tier: 'Silver',
+  nextTierRequirement: 25,
+  recentReferrals: [
+    {
+      id: 'ref1',
+      userName: 'John Doe',
+      joinedAt: new Date('2024-01-10').toISOString(),
+      status: 'active',
+      earnings: 5.00,
+    },
+    {
+      id: 'ref2',
+      userName: 'Jane Smith',
+      joinedAt: new Date('2024-01-08').toISOString(),
+      status: 'active',
+      earnings: 5.00,
+    },
+    {
+      id: 'ref3',
+      userName: 'Mike Johnson',
+      joinedAt: new Date('2024-01-05').toISOString(),
+      status: 'pending',
+      earnings: 0.00,
+    },
+  ],
+};
 
-export async function GET(_request: NextRequest) {
+export async function GET(
+  _request: NextRequest,
+  { params }: { params: Promise<{ userId: string }> }
+) {
   try {
-    console.log('🔄 API: Getting referral leaderboard');
+    const { userId } = await params;
+    console.log('🔄 API: Getting referral data for user:', userId);
 
-    // Sort by referral count (descending)
-    const sortedData = [...mockReferralLeaderboard].sort((a, b) => b.referralCount - a.referralCount);
+    // In a real application, you would fetch user-specific data from database
+    // For now, return mock data with the requested userId
+    const userData = {
+      ...mockUserReferralData,
+      userId: userId,
+    };
 
-    // Update ranks
-    sortedData.forEach((entry, index) => {
-      entry.rank = index + 1;
-    });
+    console.log('✅ API: User referral data sent successfully');
 
-    console.log('✅ API: Referral leaderboard data sent successfully');
-
-    return NextResponse.json(sortedData, {
+    return NextResponse.json(userData, {
       status: 200,
       headers: {
         'Access-Control-Allow-Origin': '*',
@@ -108,7 +65,7 @@ export async function GET(_request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('❌ API: Error in referral leaderboard endpoint:', error);
+    console.error('❌ API: Error in user referral data endpoint:', error);
     
     return NextResponse.json(
       { 
