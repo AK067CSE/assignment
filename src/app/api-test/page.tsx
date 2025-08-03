@@ -4,8 +4,10 @@ import { useState } from 'react';
 import { checkApiHealth, contestApi } from '@/lib/api';
 
 export default function ApiTestPage() {
-  const [healthResult, setHealthResult] = useState<unknown>(null);
-  const [leaderboardResult, setLeaderboardResult] = useState<unknown>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [healthResult, setHealthResult] = useState<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [leaderboardResult, setLeaderboardResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
   const testHealth = async () => {
