@@ -136,6 +136,7 @@ const apiClient = {
 };
 
 // Helper function to try multiple endpoint variations
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const tryEndpointVariations = async <T>(baseEndpoint: string, method: 'GET' | 'POST' = 'GET', body?: unknown): Promise<ApiResponse<T>> => {
   const variations = [
     baseEndpoint,
